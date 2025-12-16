@@ -1,3 +1,4 @@
+# %%
 #!/usr/bin/env python3
 import sys
 import hashlib
@@ -48,7 +49,7 @@ def hash_first_1k_bytes(file_path: str) -> str:
     raise NotImplementedError()
 
 
-def hash_file(file_path: str) -> str:
+def hash_file(path: str) -> str:
     """
     Computes the SHA-1 hash of the entire file.
 
@@ -59,7 +60,14 @@ def hash_file(file_path: str) -> str:
         str: The hexadecimal SHA-1 hash of the file.
     """
     # Run "pytest find_duplicates.py -k hash_file" to test your implementation
-    raise NotImplementedError()
+    hash = hashlib.sha1() #create a new hasher with the SHA-1 algorithm
+    with open(path, "rb") as file: # open the file in binary mode "rb"
+        while True:
+            chunk = file.read(1024) # read up to 1024 bytes from the file
+            if not chunk: #if the end of the file is reached, stop
+                break
+            hash.update(chunk) # add the data to the hash
+    return hash.hexdigest() # finish the hashing and return the full hash in hexadecimal
 
 
 def filter_files_by_size(file_paths: list[str]) -> list[str]:
@@ -206,7 +214,7 @@ def main():
         sys.exit(1)
     check_for_duplicates(sys.argv[1:])
 
-
+# %%
 if __name__ == "__main__":
     main()
 
