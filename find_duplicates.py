@@ -18,7 +18,15 @@ def list_files(path: str) -> list[str]:
         list[str]: A list of file paths found in the directory and its subdirectories.
     """
     # Run "pytest find_duplicates.py -k list_files" to test your implementation
-    raise NotImplementedError()
+    # files = os.listdir(path)
+    # return [f for f in files if os.path.isfile(path+'/'+f)] # os.path.basename(f)
+    result = []
+    for dirpath,_,filenames in os.walk(path):
+        for f in filenames:
+            result.append(os.path.abspath(os.path.join(dirpath, f)))
+
+    return result
+    
 
 
 def get_file_size(file_path: str) -> int:
@@ -222,7 +230,7 @@ if __name__ == "__main__":
 # Pytest Tests
 # Use pytest find_duplicates.py to run these tests.
 
-
+# %%
 def create_file(directory, name, content):
     """Helper function to create a file with the given content."""
     file_path = os.path.join(directory, name)
@@ -347,3 +355,5 @@ def test_file_size_string():
     assert file_size_string(1500000) == "1.50MB"
     assert file_size_string(2000000000) == "2.00GB"
     assert file_size_string(2500000000000) == "2.50TB"
+
+# %%
